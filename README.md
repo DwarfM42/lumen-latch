@@ -141,3 +141,12 @@ sha256sum simulation_results.csv system_energy_budget.csv
 READMEに埋め込んだ`stages_vs_error_rate.png`はCSV各行の直接プロットではなく、別の感度条件によるstage sweepです。Stage 0–64、ER=10 dB、保持時間24 h、温度25 °C、threshold CV=0.05、gain noise=0.35 dB、write error=1e-5、read disturb=1e-6、周期再生間隔4を用い、seedは`base seed + strategy offset + stage`です。
 
 `temperature_vs_error_rate.png`と`variation_vs_error_rate.png`もER=10 dB・保持時間24 hを基準とし、それぞれ温度またはthreshold CVだけを掃引します。これら3図のerror rateを、劣化後ERと2160 h保持を使う[simulation_results.csv](simulation_results.csv)の値として読んではなりません。全8図の定義は[生成コード](simulate_optical_cell.py)で確認できます。
+
+## ライセンス
+
+Copyright 2026 DwarfM42
+
+- Pythonコード（`*.py`、testsを含む）：[Apache License 2.0](LICENSE-APACHE-2.0.txt)
+- 文書・図・データを含むその他のオリジナル研究成果物：[Creative Commons Attribution 4.0 International（CC BY 4.0）](LICENSE-CC-BY-4.0.txt)
+
+適用範囲、推奨クレジット、第三者資料の扱いは[LICENSE](LICENSE)を参照してください。

@@ -1,0 +1,29 @@
+LumenLatch licensing
+====================
+
+Copyright 2026 DwarfM42
+
+This repository uses two licenses, depending on the type of material:
+
+1. Python source code
+
+   All Python source files (`*.py`), including tests, are licensed under the
+   Apache License, Version 2.0. See `LICENSE-APACHE-2.0.txt`.
+
+2. Research documents, figures, and data
+
+   All other original research materials in this repository—including Markdown
+   documents, CSV datasets, and PNG figures—are licensed under the Creative
+   Commons Attribution 4.0 International License (CC BY 4.0). See
+   `LICENSE-CC-BY-4.0.txt`.
+
+Suggested attribution for CC BY 4.0 materials:
+
+   LumenLatch by DwarfM42,
+   https://github.com/DwarfM42/lumen-latch,
+   licensed under CC BY 4.0.
+
+Where a file contains a separate license notice, that notice controls. This
+license grant does not relicense third-party works that are cited, linked,
+quoted, or identified in the research materials; rights in those works remain
+with their respective owners.
