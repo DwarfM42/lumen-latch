@@ -48,5 +48,8 @@ sha256sum simulation_results.csv
 ```
 CSV基準SHA-256は `2de08f6d7744aea0a6c2db67e7bb25a48691b85ae115b3a80e59d9d2bd0b2dbf`。旧hash `04dd5214...` からの更新理由は、各行の記録値と計算値を一致させるため、保持時間を24 hから記録済みの2160 hへ、Q/error計算のERを固定12 dBから記録済みの劣化後ERへ変更し、実際の行固有seedをCSVへ記録したためである。192 data rowsと8 PNGは維持し、64段の全方式FAILという結論は変わらない。system CSVは3 scenario×80 operating points=240 data rows。
 
+## error-rate図の条件
+`figures/stages_vs_error_rate.png` はCSVの各行を描画した図ではなく、別の感度条件によるstage sweepである。stage 0–64、ER=10 dB、保持時間24 h、温度25 °C、threshold CV=0.05、gain noise=0.35 dB、write error=1e-5、read disturb=1e-6、周期再生間隔4を用いる。seedはCSVと同じ `base seed + strategy offset + stage` 規則である。`temperature_vs_error_rate.png` と `variation_vs_error_rate.png` もER=10 dB・保持時間24 hを基準とし、それぞれ温度またはthreshold CVだけを掃引する。したがって、これら3図のerror rateを、劣化後ERと2160 h保持を使う `simulation_results.csv` の値として読んではならない。
+
 ## 限界と次Phase
 未モデルはASE、RIN、shot noise、jitter、pump depletion、thermal drift/cross-talk、wavelength/polarization/detuning、back-reflection、実array CV、endurance、wall-plug standby。次Phaseは (1) pJ級PCM write energyを吸収面からwall-plugまで測定、(2) Q proxyをASE/RIN/shot/timing込みPRBS BERへ校正、の2件を優先する。
