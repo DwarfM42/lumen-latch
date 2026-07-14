@@ -8,7 +8,12 @@ from pathlib import Path
 
 import pytest
 
-from simulate_optical_cell import estimate_error_rate, propagate_power
+from simulate_optical_cell import (
+    calculate_q_margin,
+    estimate_error_rate,
+    propagate_power,
+    run_simulation,
+)
 
 
 def test_propagate_power_passive_chain_decays_geometrically():
@@ -51,6 +56,36 @@ def test_threshold_variation_increases_error_rate():
     base = estimate_error_rate(stages=32, strategy="passive", seed=11, trials=8000, temperature_c=25.0, threshold_cv=0.01)
     varied = estimate_error_rate(stages=32, strategy="passive", seed=11, trials=8000, temperature_c=25.0, threshold_cv=0.15)
     assert varied > base
+
+
+def test_csv_rows_reproduce_error_and_q_from_recorded_inputs(tmp_path):
+    csv_path = run_simulation(tmp_path, seed=20260715, trials=1200)
+
+    with csv_path.open(newline="", encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+
+    for row in rows:
+        inputs = {
+            "stages": int(row["stages"]),
+            "strategy": row["strategy"],
+            "temperature_c": float(row["temperature_c"]),
+            "threshold_cv": float(row["threshold_cv"]),
+            "regeneration_interval": int(row["regeneration_interval"]),
+            "gain_noise_db": float(row["gain_noise_db"]),
+            "extinction_ratio_db": float(row["extinction_ratio_db"]),
+        }
+        expected_error = estimate_error_rate(
+            **inputs,
+            seed=int(row["seed"]),
+            trials=1200,
+            write_error_rate=float(row["write_error_rate"]),
+            read_disturb_rate=float(row["read_disturb_rate"]),
+            retention_hours=float(row["retention_hours"]),
+        )
+        expected_q = calculate_q_margin(**inputs)
+
+        assert row["error_rate"] == f"{expected_error:.12g}"
+        assert row["q_factor"] == f"{expected_q:.6f}"
 
 
 EXPECTED_FIGURES = {

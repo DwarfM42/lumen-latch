@@ -12,9 +12,12 @@
 
 | 戦略 | Q proxy | Monte Carlo error_rate | Q条件 | error条件 | 総合 |
 |---|---:|---:|---|---|---|
-| passive | -1.59 | 0.9458 | FAIL | FAIL | **FAIL** |
-| each-stage | 5.97 | 0.0003 | FAIL | FAIL | **FAIL** |
-| periodic (N=4) | 5.61 | 0.0005 | FAIL | FAIL | **FAIL** |
+| passive | -1.9996 | 0.9776 | FAIL | FAIL | **FAIL** |
+| each-stage | 5.9636 | 0.0003 | FAIL | FAIL | **FAIL** |
+| periodic (N=4) | 5.5844 | 0.0005 | FAIL | FAIL | **FAIL** |
+
+## CSV整合性修正
+`simulation_results.csv` の各行は、記録された劣化後 `extinction_ratio_db`、`retention_hours=2160`、write/read event rate、および行固有 `seed` だけから `q_factor` と `error_rate` を再計算できる。以前のCSVはERと保持時間を記録していた一方、計算には固定ER 12 dBと既定保持時間24 hを使い、さらに基準seedを各行へ記録していた。この不整合を修正したため、CSVのSHA-256と具体的な数値は更新されたが、64段で全方式が受入条件を満たさない結論は変わらない。
 
 ## 光パワーと13.4 pJ収支
 1段透過率は `T=10^(-(L_cell+L_link)/10)`。受動枝は `P[n+1]=P[n]*T/F`、各段再生は `min(P_nominal,P[n]*T*G/F)`、周期再生はN段ごとに理想復元する。

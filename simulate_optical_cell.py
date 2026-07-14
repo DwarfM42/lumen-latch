@@ -79,9 +79,10 @@ def run_simulation(output_dir,seed,trials):
                 span=stages if strategy=="passive" else (1 if strategy=="each-stage" else min(stages,4))
                 er=max(6,12-0.08*span); regen=0 if strategy=="passive" else (stages if strategy=="each-stage" else stages//4)
                 rowseed=seed+si*10000+stages
-                error=estimate_error_rate(stages,strategy,rowseed,trials=trials,extinction_ratio_db=12)
-                q=calculate_q_margin(stages,strategy,25,0.05,4,0.35,12)
-                writer.writerow({"strategy":strategy,"stages":stages,"optical_power_mw":f"{power:.12g}","total_loss_db":f"{-10*math.log10(max(power,1e-300)):.6f}","extinction_ratio_db":f"{er:.6f}","fanout":1,"gain":"4.000000","gain_noise_db":"0.350000","temperature_c":"25.000000","threshold_cv":"0.050000","retention_hours":"2160.000000","read_disturb_rate":"1e-06","write_error_rate":"1e-05","regeneration_interval":4,"error_rate":f"{error:.12g}","q_factor":f"{q:.6f}","total_energy_pj":f"{13.4+1.5*regen:.6f}","seed":seed})
+                retention_hours=2160.0
+                error=estimate_error_rate(stages,strategy,rowseed,trials=trials,extinction_ratio_db=er,retention_hours=retention_hours)
+                q=calculate_q_margin(stages,strategy,25,0.05,4,0.35,er)
+                writer.writerow({"strategy":strategy,"stages":stages,"optical_power_mw":f"{power:.12g}","total_loss_db":f"{-10*math.log10(max(power,1e-300)):.6f}","extinction_ratio_db":f"{er:.6f}","fanout":1,"gain":"4.000000","gain_noise_db":"0.350000","temperature_c":"25.000000","threshold_cv":"0.050000","retention_hours":f"{retention_hours:.6f}","read_disturb_rate":"1e-06","write_error_rate":"1e-05","regeneration_interval":4,"error_rate":f"{error:.12g}","q_factor":f"{q:.6f}","total_energy_pj":f"{13.4+1.5*regen:.6f}","seed":rowseed})
     generate_figures(figure_dir,seed,trials); return path
 
 def main(argv=None):
